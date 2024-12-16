@@ -33,7 +33,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 
     return (
         <div className="bg-white h-screen">
-            <div className="md:hidden p-4">
+            <div className="md:hidden p-4 absolute">
                 <button
                     ref={hamburgerBtnRef}
                     onClick={toggleSidebar}
