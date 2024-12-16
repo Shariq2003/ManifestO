@@ -89,6 +89,19 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                     <HiLockOpen className="w-5 h-5 mr-3" />
                     Decryption
                 </Link>
+
+                <Link
+                    to="/"
+                    onClick={() => {
+                        setActiveTab('welcome')
+                        setIsSidebarOpen(false);
+                        }}
+                    className={`m-2 flex items-center text-center p-4 hover:bg-gray-700 transition-all duration-200 rounded-l-md ${activeTab === 'stamp' ? 'bg-gray-700 text-white font-semibold' : 'text-gray-400'}`}
+                >
+                    <p className="mb-2 text-center">
+                        <span className="font-bold">❤️ By{' '} Shariq ❤️</span>
+                    </p>
+                </Link>
             </div>
         </div>
     );
