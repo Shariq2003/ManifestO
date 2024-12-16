@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaCopy } from 'react-icons/fa';
 
 const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
     const [name, setName] = useState('');
@@ -35,6 +36,13 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
         }
     };
 
+    const handleCopy = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied to clipboard!');
+        }).catch(() => {
+            alert('Failed to copy!');
+        });
+    };
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
@@ -64,23 +72,41 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
                     Submit
                 </button>
             </form>
-            <div className='flex flex-row'>
-                <div>
-                    {resultMessage && (
-                        <div className="mt-4 bg-green-100 p-4 rounded-md">
-                            <h4 className="font-semibold">{actionType==="encrypt" ? "Encrypted Message" : "Decrypted Message"}</h4>
-                            <p>{resultMessage}</p>
+            <div className="mt-6 space-y-4">
+                {resultMessage && (
+                    <div className="bg-gray-100 p-4 rounded-md">
+                        <h4 className="font-semibold mb-2">{actionType === "encrypt" ? "Encrypted Message" : "Decrypted Message"}</h4>
+                        <div className="relative group">
+                            <pre className="bg-gray-200 p-2 rounded overflow-x-auto">
+                                <code>{resultMessage}</code>
+                            </pre>
+                            <button
+                                onClick={() => handleCopy(resultMessage)}
+                                className="absolute top-2 right-2 opacity-100 bg-gray-300 hover:bg-gray-400 text-gray-800 p-1 rounded"
+                                aria-label="Copy Encrypted Message"
+                            >
+                                <FaCopy />
+                            </button>
                         </div>
-                    )}
-                </div>
-                <div>
-                    {actionType==="encrypt" && resultKey!=="" && (
-                        <div className="mt-4 bg-green-100 p-4 rounded-md">
-                            <h4 className="font-semibold">Encrypted Key</h4>
-                            <p>{resultKey}</p>
+                    </div>
+                )}
+                {actionType === "encrypt" && resultKey && (
+                    <div className="bg-gray-100 p-4 rounded-md">
+                        <h4 className="font-semibold mb-2">Encryption Key</h4>
+                        <div className="relative group">
+                            <pre className="bg-gray-200 p-2 rounded overflow-x-auto">
+                                <code>{resultKey}</code>
+                            </pre>
+                            <button
+                                onClick={() => handleCopy(resultKey)}
+                                className="absolute top-2 right-2 opacity-100 bg-gray-300 hover:bg-gray-400 text-gray-800 p-1 rounded"
+                                aria-label="Copy Encryption Key"
+                            >
+                                <FaCopy />
+                            </button>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             {error && <div className="mt-4 text-red-500">{error}</div>}
         </div>
