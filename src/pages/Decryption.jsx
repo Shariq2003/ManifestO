@@ -6,7 +6,7 @@ const Decryption = () => {
 
     return (
         <div className="text-center my-6">
-            <h1 className="text-4xl font-bold text-gray-800">🔓 Decrypt Your Messages</h1>
+            <h1 className="text-2xl font-bold text-gray-800">🔓 Decrypt Your Messages</h1>
             <Form
                 title="Decryption"
                 namePlaceholder="Enter the key shared with you"

@@ -5,7 +5,7 @@ import Form from '../components/Form';
 const Encryption = () => {
     return (
         <div className="text-center my-6">
-            <h1 className="text-4xl font-bold text-gray-800">🔒 Encrypt Your Messages</h1>
+            <h1 className="text-2xl font-bold text-gray-800">🔒 Encrypt Your Messages</h1>
             <Form
                 title="Encryption"
                 namePlaceholder="Enter the paired name (sender-reciever, e.g., Alice-Bob)"

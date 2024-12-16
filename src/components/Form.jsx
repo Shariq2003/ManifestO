@@ -46,9 +46,9 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md text-left">
-            <h3 className="text-xl font-semibold mb-4">
+            {/* <h3 className="text-xl font-semibold mb-4">
                 {actionType === 'encrypt' ? '🔒' : '🔓'} {title}
-            </h3>
+            </h3> */}
             <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
                 <input
                     type="text"
