@@ -9,13 +9,15 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`/api/${actionType}`, {
+            const baseUrl = process.env.REACT_APP_API_BASE_URL;
+            const response = await fetch(`${baseUrl}/api/${actionType}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, message }),
+                body: JSON.stringify({ sender: name, msg: message }),
             });
+
 
             const data = await response.json();
             if (response.ok) {
@@ -28,6 +30,7 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
             setError(`Error processing ${actionType}`);
         }
     };
+
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">

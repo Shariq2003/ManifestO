@@ -8,7 +8,7 @@ const Decryption = () => {
             title="Decryption"
             namePlaceholder="Enter the key shared with you"
             inputPlaceholder="Enter the message to decrypt"
-            actionType="decryption"
+            actionType="decrypt"
         />
     );
 };

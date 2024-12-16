@@ -1,12 +1,18 @@
-function calculateKey(name) {
-    let k = 0;
-    for (const ch of name) {
-        if (/[a-zA-Z]/.test(ch)) {
-            k += ch.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0) + 1;
+function calculateName(key) {
+    const target = ((key - 1) % 25) + 1;
+
+    let name = '';
+    let sum = 0;
+
+    for (let i = 0; i < target; i++) {
+        if (sum + 1 <= target) {
+            name += 'A';
+            sum += 1;
         }
     }
-    return (k % 25) + 1;
+    return name;
 }
+
 
 function decodeMessage(enc, k) {
     const reverseSubstitutions = {
@@ -24,4 +30,4 @@ function decodeMessage(enc, k) {
     }).join('');
 }
 
-module.exports = { calculateKey, decodeMessage };
+module.exports = { calculateName, decodeMessage };
