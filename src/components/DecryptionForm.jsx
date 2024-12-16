@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
 
-const DecryptionForm = ({ onDecrypt }) => {
+const DecryptionForm = () => {
     const [key, setKey] = useState('');
     const [encryptedMessage, setEncryptedMessage] = useState('');
+    const [decryptedMessage, setDecryptedMessage] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onDecrypt(key, encryptedMessage);
+        try {
+            const response = await fetch('/api/decrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ key, encryptedMessage }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setDecryptedMessage(data.decryptedMessage); // assuming response contains 'decryptedMessage'
+                setError('');
+            } else {
+                setError(data.error || 'Something went wrong');
+            }
+        } catch (err) {
+            setError('Error decrypting message');
+        }
     };
 
     return (
@@ -33,6 +53,13 @@ const DecryptionForm = ({ onDecrypt }) => {
                     Decrypt
                 </button>
             </form>
+            {decryptedMessage && (
+                <div className="mt-4 bg-yellow-100 p-4 rounded-md">
+                    <h4 className="font-semibold">Decrypted Message</h4>
+                    <p>{decryptedMessage}</p>
+                </div>
+            )}
+            {error && <div className="mt-4 text-red-500">{error}</div>}
         </div>
     );
 };

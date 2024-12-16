@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
 
-const EncryptionForm = ({ onEncrypt }) => {
+const EncryptionForm = () => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
+    const [encryptedMessage, setEncryptedMessage] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onEncrypt(name, message);
+        try {
+            const response = await fetch('/api/encrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, message }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setEncryptedMessage(data.encryptedMessage); // assuming response contains 'encryptedMessage'
+                setError('');
+            } else {
+                setError(data.error || 'Something went wrong');
+            }
+        } catch (err) {
+            setError('Error encrypting message');
+        }
     };
 
     return (
@@ -33,6 +53,13 @@ const EncryptionForm = ({ onEncrypt }) => {
                     Encrypt
                 </button>
             </form>
+            {encryptedMessage && (
+                <div className="mt-4 bg-green-100 p-4 rounded-md">
+                    <h4 className="font-semibold">Encrypted Message</h4>
+                    <p>{encryptedMessage}</p>
+                </div>
+            )}
+            {error && <div className="mt-4 text-red-500">{error}</div>}
         </div>
     );
 };

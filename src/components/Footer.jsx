@@ -6,13 +6,10 @@ const Footer = () => {
     return (
         <footer className="bg-gray-800 text-white py-4">
             <div className="container mx-auto text-center">
-                {/* Made with love message */}
                 <p className="mb-2">
                     Made with <span className="text-red-500">❤️</span> by{' '}
                     <span className="font-bold">Shariq</span>
                 </p>
-
-                {/* Social Links */}
                 <div className="flex justify-center space-x-4 mb-2">
                     <a
                         href="https://github.com/Shariq2003"
@@ -31,8 +28,6 @@ const Footer = () => {
                         <FontAwesomeIcon icon={faLinkedin} size="2x" />
                     </a>
                 </div>
-
-                {/* License */}
                 <p className="text-sm text-gray-400">
                     © {new Date().getFullYear()} ManifestO. All rights reserved. | MIT License
                 </p>
