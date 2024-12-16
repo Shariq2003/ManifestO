@@ -3,8 +3,7 @@ const router = express.Router();
 const Visitor = require('../models/Visitors');
 const { calculateKey, encodeMessage } = require('../utils/encryption');
 
-// Encryption route
-router.post('/encrypt', async (req, res) => {
+router.post('/', async (req, res, next) => {
     const { sender, msg } = req.body;
 
     if (!sender || !msg) {
@@ -14,18 +13,19 @@ router.post('/encrypt', async (req, res) => {
     try {
         const key = calculateKey(sender);
         const encodedMessage = encodeMessage(msg, key);
+        const currentDatetime = new Date();
 
-        const visitor = new Visitor({
+        await Visitor.create({
             sender,
-            msg: encodedMessage,
-            algo: 'encryption'
+            msg: msg,
+            date: currentDatetime.toISOString(),
+            algo: 'encryption',
         });
-        await visitor.save();
 
         res.json({ encodedMessage, key });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Encryption failed' });
+        console.error('Encryption error:', error.message);
+        next(error);
     }
 });
 

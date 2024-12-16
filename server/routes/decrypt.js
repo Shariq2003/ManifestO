@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Visitor = require('../models/Visitors');
-const { calculateKey, decodeMessage } = require('../utils/encryption');
+const { calculateName, decodeMessage } = require('../utils/decryption');
 
-// Decryption route
-router.post('/decrypt', async (req, res) => {
+
+router.post('/', async (req, res, next) => {
     const { sender, msg } = req.body;
 
     if (!sender || !msg) {
@@ -12,20 +12,22 @@ router.post('/decrypt', async (req, res) => {
     }
 
     try {
-        const key = calculateKey(sender);
+        const key = sender;
         const decodedMessage = decodeMessage(msg, key);
+        const currentDatetime = new Date();
+        const senderName = calculateName(key);
 
-        const visitor = new Visitor({
-            sender,
+        await Visitor.create({
+            sender: senderName,
             msg: decodedMessage,
-            algo: 'decryption'
+            date: currentDatetime.toISOString(),
+            algo: 'decryption',
         });
-        await visitor.save();
 
         res.json({ decodedMessage });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Decryption failed' });
+        console.error('Decryption error:', error.message);
+        next(error);
     }
 });
 
