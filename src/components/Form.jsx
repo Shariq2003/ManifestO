@@ -4,6 +4,7 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [resultMessage, setResultMessage] = useState('');
+    const [resultKey, setResultKey] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
@@ -21,7 +22,10 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
 
             const data = await response.json();
             if (response.ok) {
-                setResultMessage(data.processedMessage || data.encryptedMessage || data.decryptedMessage);
+                setResultMessage(data.decodedMessage || data.encodedMessage || "");
+                if (actionType === "encrypt") {
+                    setResultKey(data.key || "");
+                }
                 setError('');
             } else {
                 setError(data.error || 'Something went wrong');
@@ -60,12 +64,24 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
                     Submit
                 </button>
             </form>
-            {resultMessage && (
-                <div className="mt-4 bg-green-100 p-4 rounded-md">
-                    <h4 className="font-semibold">Result</h4>
-                    <p>{resultMessage}</p>
+            <div className='flex flex-row'>
+                <div>
+                    {resultMessage && (
+                        <div className="mt-4 bg-green-100 p-4 rounded-md">
+                            <h4 className="font-semibold">{actionType==="encrypt" ? "Encrypted Message" : "Decrypted Message"}</h4>
+                            <p>{resultMessage}</p>
+                        </div>
+                    )}
                 </div>
-            )}
+                <div>
+                    {actionType==="encrypt" && resultKey!=="" && (
+                        <div className="mt-4 bg-green-100 p-4 rounded-md">
+                            <h4 className="font-semibold">Encrypted Key</h4>
+                            <p>{resultKey}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
             {error && <div className="mt-4 text-red-500">{error}</div>}
         </div>
     );
