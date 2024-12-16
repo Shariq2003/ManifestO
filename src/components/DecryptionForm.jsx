@@ -19,7 +19,7 @@ const DecryptionForm = () => {
 
             const data = await response.json();
             if (response.ok) {
-                setDecryptedMessage(data.decryptedMessage); // assuming response contains 'decryptedMessage'
+                setDecryptedMessage(data.decryptedMessage);
                 setError('');
             } else {
                 setError(data.error || 'Something went wrong');

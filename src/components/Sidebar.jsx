@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { HiLockClosed, HiLockOpen, HiMenu, HiX } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
+import { HiLockClosed, HiLockOpen, HiHome, HiMenu, HiX } from 'react-icons/hi';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -31,7 +32,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     }, [isSidebarOpen]);
 
     return (
-        <div className='bg-gray-100 h-min-screen'>
+        <div className="bg-white h-screen">
             <div className="md:hidden p-4">
                 <button
                     ref={hamburgerBtnRef}
@@ -41,10 +42,11 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                     {isSidebarOpen ? (
                         <HiX className="w-6 h-6 text-black" />
                     ) : (
-                            <HiMenu className="w-6 h-6 text-black" />
+                        <HiMenu className="w-6 h-6 text-black" />
                     )}
                 </button>
             </div>
+
             <div
                 ref={sidebarRef}
                 className={`sidebar w-64 h-screen bg-gray-800 text-white flex flex-col shadow-lg overflow-hidden fixed top-0 left-0 z-50 md:w-48 md:relative transition-all duration-300 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
@@ -52,26 +54,41 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                 <h2 className="text-2xl font-bold p-4 border-b border-gray-700 text-center bg-gray-900">
                     ManifestO
                 </h2>
-                <button
+                <Link
+                    to="/"
                     onClick={() => {
-                        setActiveTab('encryption');
+                        setActiveTab('welcome')
+                        setIsSidebarOpen(false);
+                    }}
+                    className={`m-2 flex items-center p-4 text-left hover:bg-gray-700 transition-all duration-200 rounded-l-md ${activeTab === 'welcome' ? 'bg-gray-700 text-white font-semibold' : 'text-gray-400'}`}
+                >
+                    <HiHome className="w-5 h-5 mr-3" />
+                    Home
+                </Link>
+
+                <Link
+                    to="/encryption"
+                    onClick={() => {
+                        setActiveTab('encryption')
                         setIsSidebarOpen(false);
                     }}
                     className={`m-2 flex items-center p-4 text-left hover:bg-gray-700 transition-all duration-200 rounded-l-md ${activeTab === 'encryption' ? 'bg-gray-700 text-white font-semibold' : 'text-gray-400'}`}
                 >
                     <HiLockClosed className="w-5 h-5 mr-3" />
                     Encryption
-                </button>
-                <button
+                </Link>
+
+                <Link
+                    to="/decryption"
                     onClick={() => {
-                        setActiveTab('decryption');
+                        setActiveTab('decryption')
                         setIsSidebarOpen(false);
-                    }}
+                        }}
                     className={`m-2 flex items-center p-4 text-left hover:bg-gray-700 transition-all duration-200 rounded-l-md ${activeTab === 'decryption' ? 'bg-gray-700 text-white font-semibold' : 'text-gray-400'}`}
                 >
                     <HiLockOpen className="w-5 h-5 mr-3" />
                     Decryption
-                </button>
+                </Link>
             </div>
         </div>
     );

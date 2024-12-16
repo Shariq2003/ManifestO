@@ -19,7 +19,7 @@ const EncryptionForm = () => {
 
             const data = await response.json();
             if (response.ok) {
-                setEncryptedMessage(data.encryptedMessage); // assuming response contains 'encryptedMessage'
+                setEncryptedMessage(data.encryptedMessage);
                 setError('');
             } else {
                 setError(data.error || 'Something went wrong');
