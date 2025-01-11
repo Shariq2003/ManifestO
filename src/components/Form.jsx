@@ -77,7 +77,7 @@ const Form = ({ title, namePlaceholder, inputPlaceholder, actionType }) => {
                     <div className="bg-gray-100 p-4 rounded-md">
                         <h4 className="font-semibold mb-2">{actionType === "encrypt" ? "Encrypted Message" : "Decrypted Message"}</h4>
                         <div className="relative group">
-                            <pre className="bg-gray-200 p-2 rounded overflow-x-auto">
+                            <pre className="bg-gray-200 p-2 rounded text-wrap">
                                 <code>{resultMessage}</code>
                             </pre>
                             <button
